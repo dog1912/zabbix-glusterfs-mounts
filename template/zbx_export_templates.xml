@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-08-13T09:24:01Z</date>
+    <groups>
+        <group>
+            <name>Glusterfs mounts</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Glusterfs mounts</template>
+            <name>Template Glusterfs mounts</name>
+            <description>Monitor glusterfs mounts described in /etc/fstab</description>
+            <groups>
+                <group>
+                    <name>Glusterfs mounts</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>GlusterfsMount</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Glusterfs mounts discovery</name>
+                    <key>glusterfs.mounts.discovery</key>
+                    <delay>1h</delay>
+                    <lifetime>3d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>glusterfs.share[{#GLUSTERFSNAME}]</name>
+                            <key>glusterfs.share[{#GLUSTERFSNAME}]</key>
+                            <delay>1h</delay>
+                            <history>30d</history>
+                            <applications>
+                                <application>
+                                    <name>GlusterfsMount</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(0)}=0</expression>
+                                    <name>The mount point {#GLUSTERFSNAME} is disconnected</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
